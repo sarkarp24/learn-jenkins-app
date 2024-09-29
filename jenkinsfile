@@ -84,7 +84,7 @@ pipeline {
                     echo "token: $NETLIFY_AUTH_TOKEN"
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                    node_modules/.bin/netlify node-jq - r '.deploy_url' deploy-output.json
+                    node_modules/.bin/netlify node-jq -r '.deploy_url' deploy-output.json
                 '''
             }
         }
@@ -111,6 +111,9 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
+                scripts{
+                    env.MY_VAR = 'This is set in Deploy Prod step'
+                }
             }
         }
         stage('Prod E2E'){
@@ -126,7 +129,8 @@ pipeline {
             steps{
                 sh '''
                 npx playwright test --reporter=html
-            '''
+                echo "MY_VAR is: $env.MY_VAR"
+                '''
             }
             post {
                 always {
