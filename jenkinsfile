@@ -88,7 +88,9 @@ pipeline {
             }
         }
          stage('Approval'){
-            input message: 'Do you wish to deploy to production?', ok: 'Yes, want to deploy'
+            steps{
+                input message: 'Do you wish to deploy to production?', ok: 'Yes, want to deploy'
+            }
          }
          stage('Deploy Production') {
             agent{
