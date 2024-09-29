@@ -111,7 +111,7 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
-                scripts{
+                script{
                     env.MY_VAR = 'This is set in Deploy Prod step'
                 }
             }
