@@ -121,7 +121,8 @@ pipeline {
             }
             steps{
                 sh '''
-                echo "MY_VAR is: ${env.MY_VAR}"
+                npx playwright test --reporter=html
+                echo ${env.MY_VAR}
                 '''
             }
             post {
