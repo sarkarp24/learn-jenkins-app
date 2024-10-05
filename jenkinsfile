@@ -122,7 +122,7 @@ pipeline {
             steps{
                 sh '''
                 npx playwright test --reporter=html
-                echo "${env.MY_VAR}""
+                echo "${env.MY_VAR}"
                 '''
             }
             post {
