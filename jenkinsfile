@@ -105,7 +105,7 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
                 script{
-                    env.MY_VAR = 'This is set in Deploy Prod step'
+                    env.MY_VAR = sh(script: 'date', returnStdout: true)
                 }
             }
         }
