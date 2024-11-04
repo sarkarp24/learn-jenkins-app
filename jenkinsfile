@@ -39,7 +39,7 @@ pipeline {
                     aws --version
                     aws s3 ls
                     echo "Hello! S3" > index.html
-                    aws s3 sync build s3://prodyot-test/index.html
+                    aws s3 sync build s3://prodyot-test
                 '''
                 }
             }
