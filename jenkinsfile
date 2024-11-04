@@ -19,7 +19,7 @@ pipeline {
                 sh '''
                     aws --version
                     aws s3 ls
-                    aws s3 cp C:\Prodyot\output.csv s3://prodyot-test
+                    aws s3 cp 'C:\Prodyot\output.csv' s3://prodyot-test
                 '''
                 }
             }
