@@ -25,7 +25,7 @@ pipeline {
                     aws ecs create-service \
                     --cluster DemoClusterJenkins \
                     --service-name DemoClusterJenkins-sevice \
-                    --task-definition LearnJenkinsApp-TaskDefinition-Prod:1 \
+                    --task-definition LearnJenkinsApp-TaskDefinition-Prod:7 \
                     --desired-count 1 \
                     --launch-type FARGATE \
                     --platform-version LATEST \
