@@ -30,7 +30,7 @@ pipeline {
         stage('AWS Deployment') {
             agent{
                 docker{
-                    image 'amazon/aws-cli'
+                    image 'my-aws-cli'
                     reuseNode true
                     args "--entrypoint=''"
                 }
@@ -52,6 +52,7 @@ pipeline {
                     --launch-type FARGATE \
                     --platform-version LATEST \
                     --network-configuration "awsvpcConfiguration={subnets=[subnet-075d2e0c3062b69e1,subnet-03923185daf34c5cb,subnet-055f817f584d65689,subnet-0d2b80596a45e80c5],securityGroups=[sg-0a82b0965747ea8e5],assignPublicIp=ENABLED}"
+                    aws ecs wait services-stable --cluster DemoClusterJenkins --services DemoClusterJenkins-sevice
                 '''
                 }
             }
