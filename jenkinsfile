@@ -4,6 +4,8 @@ pipeline {
     environment {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
         AWS_DEFAULT_REGION = 'us-west-2'
+        AWS_APP_NAME = 'learningjenkins'
+        AWS_REGISTRY = '762233725823.dkr.ecr.us-west-2.amazonaws.com'
     }
 
     stages {
@@ -16,9 +18,13 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    docker build -t myjenkinsapp .
-                '''
+                withCredentials([usernamePassword(credentialsId: 'Prodyot-DhongDhong', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        docker build -t $AWS_REGISTRY/$AWS_APP_NAME:$REACT_APP_VERSION .
+                        aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_REGISTRY
+                        docker push $AWS_REGISTRY/$AWS_APP_NAME:$REACT_APP_VERSION
+                    '''
+                }
             }
         }               
     }
