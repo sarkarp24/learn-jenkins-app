@@ -27,7 +27,7 @@ pipeline {
                     --service-name DemoClusterJenkins-sevice \
                     --task-definition LearnJenkinsApp-TaskDefinition-Prod:1 \
                     --desired-count 1 \
-                    --capacity-provider-strategy FARGATE \
+                    --launch-type FARGATE \
                     --platform-version LATEST
                 '''
                 }
