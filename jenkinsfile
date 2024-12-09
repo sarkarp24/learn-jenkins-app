@@ -28,7 +28,7 @@ pipeline {
                     --task-definition LearnJenkinsApp-TaskDefinition-Prod:1 \
                     --desired-count 1 \
                     --launch-type FARGATE \
-                    --platform-version LATEST
+                    --platform-version LATEST \
                     --network-configuration "awsvpcConfiguration={subnets=[subnet-075d2e0c3062b69e1,subnet-03923185daf34c5cb,subnet-055f817f584d65689,subnet-0d2b80596a45e80c5],securityGroups=[sg-DemoECSJenkins],assignPublicIp=ENABLED}"
                 '''
                 }
