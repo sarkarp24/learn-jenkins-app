@@ -57,6 +57,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Prodyot-DhongDhong', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                 sh '''
                     aws --version
+                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" AWS/task-definition.json
                     LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://AWS/task-definition.json | jq '.taskDefinition.revision')
                     aws ecs update-service --cluster DemoClusterJenkins --service DemoClusterJenkins-sevice --task-definition LearnJenkinsApp-TaskDefinition-Prod:$LATEST_TD_REVISION
                     aws ecs wait services-stable --cluster DemoClusterJenkins --services DemoClusterJenkins-sevice
