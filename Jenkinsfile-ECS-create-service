@@ -65,7 +65,7 @@ pipeline {
                     aws ecs create-service \
                     --cluster DemoClusterJenkins \
                     --service-name DemoClusterJenkins-sevice \
-                    --task-definition LearnJenkinsApp-TaskDefinition-Prod:LATEST_TD_REVISION \
+                    --task-definition LearnJenkinsApp-TaskDefinition-Prod:$LATEST_TD_REVISION \
                     --desired-count 1 \
                     --launch-type FARGATE \
                     --platform-version LATEST \
