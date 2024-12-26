@@ -1,13 +1,10 @@
 pipeline {
     agent any
-
-    environment {
-        REACT_APP_VERSION = "1.0.$BUILD_ID"
+    environment{
+        REACT_APP_VERSION = "1.2.BUILD_ID"
         AWS_DEFAULT_REGION = 'us-west-2'
-        AWS_APP_NAME = 'learningjenkins'
-        AWS_REGISTRY = '762233725823.dkr.ecr.us-west-2.amazonaws.com'
     }
-
+    
     stages {
         stage('Build') {
             agent {
@@ -53,12 +50,24 @@ pipeline {
                     args "--entrypoint=''"
                 }
             }
+            environment{
+                AWS_S3_BUCKET = 'prodyot-new-cloud-front-bucket'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Prodyot-DhongDhong', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                 sh '''
                     aws --version
+                    sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition-prod.json
+                    #aws ecs register-task-definition --cli-input-json file://AWS/task-definition.json
                     LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://AWS/task-definition.json | jq '.taskDefinition.revision')
-                    aws ecs update-service --cluster DemoClusterJenkins --service DemoClusterJenkins-sevice --task-definition LearnJenkinsApp-TaskDefinition-Prod:$LATEST_TD_REVISION
+                    aws ecs create-service \
+                    --cluster DemoClusterJenkins \
+                    --service-name DemoClusterJenkins-sevice \
+                    --task-definition LearnJenkinsApp-TaskDefinition-Prod:LATEST_TD_REVISION \
+                    --desired-count 1 \
+                    --launch-type FARGATE \
+                    --platform-version LATEST \
+                    --network-configuration "awsvpcConfiguration={subnets=[subnet-075d2e0c3062b69e1,subnet-03923185daf34c5cb,subnet-055f817f584d65689,subnet-0d2b80596a45e80c5],securityGroups=[sg-0a82b0965747ea8e5],assignPublicIp=ENABLED}"
                     aws ecs wait services-stable --cluster DemoClusterJenkins --services DemoClusterJenkins-sevice
                 '''
                 }
