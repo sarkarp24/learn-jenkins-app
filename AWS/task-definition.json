@@ -6,7 +6,7 @@
     "containerDefinitions": [
         {
             "name": "LearnJenkinsApp",
-            "image": "prodyotsarkar/learningjenkins:#APP_VERSION#",
+            "image": "prodyotsarkar/insure-me:1.0",
             "portMappings": [{
                 "name": "learn-jenkinsapp-80-tcp",
                 "containerPort": 80,
