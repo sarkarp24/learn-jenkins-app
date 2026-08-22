@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Docker image build'){
             steps{
-                sh 'docker build -f CI/Dockerfile-playwright -t my-playwright .'
+                sh 'docker build -f CI/Dockerfile-playwright -t prodyotsarkar/my-playwright:latest .'
                 sh 'docker build -f CI/Dockerfile-aws-cli -t my-aws-cli .'
             }
         }
         stage("Docker Push"){
             steps{
                 withCredentials([usernameColonPassword(credentialsId: 'docker-cred', variable: '')]) {
-                    sh 'docker push prodyotsarkar/my-aws-cli'
+                    sh 'docker push prodyotsarkar/my-aws-cli:latest'
                 }
             }
         }
