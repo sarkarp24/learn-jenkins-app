@@ -1,5 +1,9 @@
 pipeline{
     agent any
+    environment{
+        NETLIFY-TOKEN = credentials('netlify-token')
+        NETLIFY-SITE-ID = '4b92158c-9bc4-42bc-9e9a-1d962f0534f6'
+    }
     stages{
         /*
         stage('Workspace cleanup'){
@@ -62,8 +66,19 @@ pipeline{
             }
         }
         stage('Deploy'){
-            steps{
-                echo 'Deploying...'
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+
+            steps {
+                sh '''
+                    npm install netlify-cli
+                    ls -la node_modules/.bin
+                    node_modules/.bin/netlify status
+                '''
             }
         }
     }
