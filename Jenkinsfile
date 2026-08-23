@@ -75,6 +75,7 @@ pipeline{
 
             steps {
                 sh '''
+                    echo 'Deploying...'
                     npm install netlify-cli@20.1.1
                     ls -la node_modules/.bin
                     node_modules/.bin/netlify status
