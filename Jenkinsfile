@@ -92,7 +92,8 @@ pipeline{
                     ls -la node_modules/.bin
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --prod --dir=build --json > netlify-deploy.json
-                    echo 'Deployment completion time:'env.END_TIME - env.START_TIME
+                    node_modules/.bin/jq -r '.deploy_url' netlify-deploy.json
+                    echo 'Deployment completion time:'${env.END_TIME} - ${env.START_TIME}
                 '''
             }
         }
