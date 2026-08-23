@@ -11,10 +11,11 @@ pipeline{
             steps{
                 echo 'Building...'
                 sh '''
+                    cleanWs()
                     ls -la
                     node --version
                     npm -version
-                    npm install
+                    npm ci
                     ls -la
                 '''
             }
