@@ -60,7 +60,7 @@ pipeline{
                     npm install serve
                     ls -la node_modules/.bin
                     node_modules/.bin/serve -s build &
-                    sleep 20
+                    sleep 10
                     npx playwright test --reporter=html
                 '''
             }
@@ -75,9 +75,10 @@ pipeline{
 
             steps {
                 sh '''
-                    npm install netlify-cli
+                    npm install netlify-cli@20.1.1
                     ls -la node_modules/.bin
                     node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --prod --dir=build
                 '''
             }
         }
