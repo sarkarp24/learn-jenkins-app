@@ -13,6 +13,15 @@ pipeline{
             }
         }
         */
+        stage('start time'){
+            steps{
+                echo 'Start time:'
+                sh 'date'
+                script{
+                    env.START_TIME = sh(script: 'date +%s', returnStdout: true).trim()
+                }
+            }
+        }
         stage('Build'){
             agent{
                 docker{
@@ -32,7 +41,7 @@ pipeline{
                 '''
             }
         }
-        stage('Test'){
+        stage('Unit Test'){
             agent{
                 docker{
                     image 'node:18-alpine'
@@ -74,12 +83,16 @@ pipeline{
             }
 
             steps {
+                script {
+                    env.END_TIME = sh(script: 'date +%s', returnStdout: true).trim()
+                }
                 sh '''
                     echo 'Deploying to Netlify...'
-                    npm install netlify-cli@20.1.1
+                    npm install netlify-cli@20.1.1 node-jq
                     ls -la node_modules/.bin
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --prod --dir=build
+                    node_modules/.bin/netlify deploy --prod --dir=build --json > netlify-deploy.json
+                    echo 'Deployment completion time:'env.END_TIME - env.START_TIME
                 '''
             }
         }
