@@ -1,12 +1,14 @@
 pipeline{
     agent any
     stages{
+        /*
         stage('Workspace cleanup'){
             steps{
                 echo 'Cleaning workspace...'
                 cleanWs()
             }
         }
+        */
         stage('Build'){
             agent{
                 docker{
