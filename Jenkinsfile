@@ -1,14 +1,12 @@
 pipeline{
     agent any
     stages{
-        /*
         stage('Workspace cleanup'){
             steps{
                 echo 'Cleaning workspace...'
                 cleanWs()
             }
         }
-        */
         stage('Build'){
             agent{
                 docker{
@@ -51,7 +49,7 @@ pipeline{
     }
     post{
         always{
-            junit 'test-result/junit.xml'
+            junit 'test-results/junit.xml'
         }
     }
 }
