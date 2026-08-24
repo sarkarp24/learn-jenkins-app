@@ -6,14 +6,14 @@ pipeline{
         REACT_APP_VERSION = "1.0.$BUILD_NUMBER"
     }
     stages{
-        /*
+        
         stage('Workspace cleanup'){
             steps{
                 echo 'Cleaning workspace...'
                 cleanWs()
             }
         }
-        */
+        
         stage('start time'){
             steps{
                 echo 'Start time:'
