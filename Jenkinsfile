@@ -3,6 +3,7 @@ pipeline{
     environment{
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
         NETLIFY_SITE_ID = '4b92158c-9bc4-42bc-9e9a-1d962f0534f6'
+        REACT_APP_VERSION = "1.0.$BUILD_NUMBER"
     }
     stages{
         /*
