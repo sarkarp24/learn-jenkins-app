@@ -77,7 +77,7 @@ pipeline{
         stage('Deploy'){
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'my-playwright'
                     reuseNode true
                 }
             }
@@ -88,11 +88,10 @@ pipeline{
                 }
                 sh '''
                     echo 'Deploying to Netlify...'
-                    npm install netlify-cli@20.1.1 node-jq
                     ls -la node_modules/.bin
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --prod --dir=build --json > netlify-deploy.json
-                    node_modules/.bin/node-jq -r '.deploy_url' netlify-deploy.json
+                    netlify status
+                    netlify deploy --prod --dir=build --json > netlify-deploy.json
+                    jq -r '.deploy_url' netlify-deploy.json
                 '''
             }
         }
