@@ -93,7 +93,7 @@ pipeline{
                     ls -la node_modules/.bin
                     netlify status
                     netlify deploy --prod --dir=build --json > netlify-deploy.json
-                    NETLIFY_URL = $(jq -r '.deploy_url' netlify-deploy.json)
+                    NETLIFY_URL=$(jq -r '.deploy_url' netlify-deploy.json)
                     echo "Deployed to: $NETLIFY_URL"
                 '''
             }
