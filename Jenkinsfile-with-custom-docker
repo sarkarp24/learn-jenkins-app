@@ -6,14 +6,14 @@ pipeline{
         REACT_APP_VERSION = "1.0.$BUILD_NUMBER"
     }
     stages{
-        /*
+        
         stage('Workspace cleanup'){
             steps{
                 echo 'Cleaning workspace...'
                 cleanWs()
             }
         }
-        */
+        
         stage('start time'){
             steps{
                 echo 'Start time:'
@@ -81,7 +81,9 @@ pipeline{
                     reuseNode true
                 }
             }
-
+            environment{
+                NETLIFY_URL = "XXXXX"
+            }
             steps {
                 script {
                     env.END_TIME = sh(script: 'date +%s', returnStdout: true).trim()
@@ -91,7 +93,8 @@ pipeline{
                     ls -la node_modules/.bin
                     netlify status
                     netlify deploy --prod --dir=build --json > netlify-deploy.json
-                    jq -r '.deploy_url' netlify-deploy.json
+                    NETLIFY_URL = $(jq -r '.deploy_url' netlify-deploy.json)
+                    echo "Deployed to: $NETLIFY_URL"
                 '''
             }
         }
